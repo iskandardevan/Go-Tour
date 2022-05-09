@@ -1,0 +1,124 @@
+openapi: 3.0.0
+
+info:
+  title: My Apps
+  description: this is a description
+  version: 1.0.0-beta
+  
+tags:
+  - name: Customer
+  - name: Auth
+
+paths:
+  '/login':
+    post:
+      summary: this is a login endpoint
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: username
+                password:
+                  type: string
+                  example: supersecretpassword
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  rescode:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: kjasldkjalksdjalkjdlaksjdkalj
+        '402':
+          description: user failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request, user failure
+                  rescode:
+                    type: number
+                    example: 402
+  '/getprofile/{id}':
+    get:
+      summary: this is a get profile
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - BearerAuth: []
+      tags:
+        - Customer
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                  allOf:
+                    - $ref: "#/components/schemas/success200"
+                    - type: object
+                      properties:
+                        data:
+                          type: object
+                          properties:
+                            token:
+                              type: string
+                              example: kjasldkjalksdjalkjdlaksjdkalj
+        '402':
+          $ref: "#/components/responses/402badrequest"
+
+components:
+  schemas:
+    success200:
+      type: object
+      properties:
+         message:
+           type: string
+           example: success
+         rescode:
+           type: number
+           example: 200
+  responses:
+    402badrequest:
+      description: user failure
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: bad request, user failure
+              rescode:
+                type: number
+                example: 402
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
