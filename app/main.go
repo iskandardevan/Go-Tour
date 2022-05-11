@@ -7,6 +7,14 @@ import (
 	userController "go-tour/controllers/users"
 	userRepo "go-tour/drivers/repository/users"
 
+	placeUseCase "go-tour/businesses/places"
+	placeController "go-tour/controllers/places"
+	placeRepo "go-tour/drivers/repository/places"
+
+	placeimageUseCase "go-tour/businesses/placeimages"
+	placeimageController "go-tour/controllers/placeimages"
+	placeimageRepo "go-tour/drivers/repository/placeimages"
+
 	"go-tour/app/routes"
 	"go-tour/drivers/mysql"
 
@@ -32,6 +40,8 @@ func init() {
 
 func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&userRepo.User{})
+	DB.AutoMigrate(&placeRepo.Place{})
+	DB.AutoMigrate(&placeimageRepo.PlaceImage{})
 }
 
 
@@ -59,9 +69,19 @@ func main() {
 	userRepoInterface := userRepo.NewUserRepo(DB)
 	userUseCaseInterface := userUseCase.NewUseCase(userRepoInterface, timeoutContext, &configJWT)
 	userUseControllerInterface := userController.NewUserController(userUseCaseInterface)
+	
+	placeRepoInterface := placeRepo.NewPlaceRepo(DB)
+	placeUseCaseInterface := placeUseCase.NewUseCase(placeRepoInterface, timeoutContext)
+	placeUseControllerInterface := placeController.NewPlaceController(placeUseCaseInterface)
+	
+	placeimageRepoInterface := placeimageRepo.NewPlaceImageRepo(DB)
+	placeimageUseCaseInterface := placeimageUseCase.NewUseCase(placeimageRepoInterface, timeoutContext)
+	placeimageUseControllerInterface := placeimageController.NewPlaceImageController(placeimageUseCaseInterface)
 
 	routesInit := routes.RouteControllerList{
 		UserController: *userUseControllerInterface,
+		PlaceController: *placeUseControllerInterface,
+		PlaceImageController: *placeimageUseControllerInterface,
 		JWTMiddleware: configJWT.Init(),
 	}
 	routesInit.RouteRegister(e)
