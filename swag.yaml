@@ -6,7 +6,7 @@ info:
   version: 1.0.0-beta
   
 tags:
-  - name: Customer
+  - name: User 
   - name: Auth
 
 paths:
@@ -60,9 +60,9 @@ paths:
                   rescode:
                     type: number
                     example: 402
-  '/getprofile/{id}':
-    get:
-      summary: this is a get profile
+  '/register':
+    post:
+      summary: this is a register profile
       parameters:
         - name: id
           in: path
@@ -72,7 +72,7 @@ paths:
       security:
         - BearerAuth: []
       tags:
-        - Customer
+        - User
       responses:
         '200':
           description: success response
@@ -91,18 +91,117 @@ paths:
                               example: kjasldkjalksdjalkjdlaksjdkalj
         '402':
           $ref: "#/components/responses/402badrequest"
+  '/place':
+    post:
+      summary: this is a place endpoint
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: name
+                address:
+                  type: string
+                  example: address
+                phone:
+                  type: string
+                  example: phone
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  rescode:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: kjasldkjalksdjalkjdlaksjdkalj
+        '402':
+          description: user failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request, user failure
+                  rescode:
+                    type: number
+                    example: 402
+  '/place/{id}':
+    get:
+      summary: this is a place endpoint
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: success
+                  rescode:
+                    type: number
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: kjasldkjalksdjalkjdlaksjdkalj
+        '402':
+          description: user failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: bad request, user failure
+                  rescode:
+                    type: number
+                    example: 402
+
+
 
 components:
   schemas:
     success200:
       type: object
       properties:
-         message:
-           type: string
-           example: success
-         rescode:
-           type: number
-           example: 200
+        message:
+          type: string
+          example: success
+        rescode:
+          type: number
+          example: 200
   responses:
     402badrequest:
       description: user failure

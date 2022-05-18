@@ -23,12 +23,20 @@ func (usecase *PlaceImageUseCase) Add(ctx context.Context, domain Domain) (Domai
 	if domain.Img_url == "" {
 		return Domain{}, errors.New("image belum di isi")
 	}
+	
+	link, err := usecase.repo.Upload(domain.Img_url)
+	
+	if err != nil {
+		return Domain{}, errors.New("gagal upload image")
+	}
+	domain.Img_url = link
 	placeImage, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err
 	}
 	return placeImage, nil
 }
+
 
 func (usecase *PlaceImageUseCase) GetAll(ctx context.Context) ([]Domain, error) {
 	placeimages, err := usecase.repo.GetAll(ctx)

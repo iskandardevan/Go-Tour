@@ -1,0 +1,594 @@
+basePath: /
+definitions:
+  controllers.BaseResponse:
+    properties:
+      data: {}
+      meta:
+        properties:
+          message:
+            type: string
+          status:
+            type: integer
+        type: object
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  request.Login:
+    properties:
+      email:
+        type: string
+      name:
+        type: string 
+      password:
+        type: string 
+    type: object
+  request.Register:
+    properties:
+      author_id:
+        type: integer
+      edition:
+        type: integer
+      publication_year:
+        type: string
+      publisher_id:
+        type: integer
+      title:
+        type: string
+    type: object
+  request.Place:
+    properties:
+      address:
+        type: string
+      name:
+        type: string 
+    type: object
+  request.RegisterUserRequest:
+    properties: 
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string 
+    type: object
+  response.UserResponse:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      token:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  response.Place:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/request.Place'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      token:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is API for go-tour
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: go-tour
+  version: 1.0.0
+paths:
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register new user
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success Register
+          schema:
+            allOf:
+            - $ref: '#/definitions/request.Register'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+      summary: Register
+      tags:
+      - users
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: login
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success login
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+      summary: login
+      tags:
+      - users
+  
+  /place:
+    post:
+      consumes:
+      - application/json
+      description: Add Place
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: Add Place
+      tags:
+      - places
+  /places:
+    get:
+      consumes:
+      - application/json
+      description: get all places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - places
+  /place/(:id):
+    put:
+      consumes:
+      - application/json
+      description: update places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success update
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - places
+  /place/delete(:id):
+    delete:
+      consumes:
+      - application/json
+      description: delete places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success delete
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - places
+  /savedplace:
+    post:
+      consumes:
+      - application/json
+      description: Add Place
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: Add Place
+      tags:
+      - savedplaces
+  /savedplaces:
+    get:
+      consumes:
+      - application/json
+      description: get all places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - savedplaces
+  /savedplace/(:id):
+    put:
+      consumes:
+      - application/json
+      description: update places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success update
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - savedplaces
+  /savedplace/delete(:id):
+    delete:
+      consumes:
+      - application/json
+      description: delete places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success delete
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - savedplaces
+  /ratedplace:
+    post:
+      consumes:
+      - application/json
+      description: Add Place
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: Add Place
+      tags:
+      - ratedplaces
+  /ratedplaces:
+    get:
+      consumes:
+      - application/json
+      description: get all places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - ratedplaces
+  /ratedplace/(:id):
+    put:
+      consumes:
+      - application/json
+      description: update places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success update
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - ratedplaces
+  /ratedplace/delete(:id):
+    delete:
+      consumes:
+      - application/json
+      description: delete places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success delete
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - ratedplaces
+  /placeimage:
+    post:
+      consumes:
+      - application/json
+      description: Add Place
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: Add Place
+      tags:
+      - placeimages
+  /placeimages:
+    get:
+      consumes:
+      - application/json
+      description: get all places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Add
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - placeimages
+  /placeimage/(:id):
+    put:
+      consumes:
+      - application/json
+      description: update places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success update
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - placeimages
+  /placeimage/delete(:id):
+    delete:
+      consumes:
+      - application/json
+      description: delete places
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.Place'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success delete
+          schema:
+            allOf:
+            - $ref: '#/definitions/controllers.BaseResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.Place'
+              type: object
+      summary: AddReservation reservation
+      tags:
+      - placeimages
+swagger: "2.0"

@@ -22,7 +22,7 @@ func (Repo *placeRepo) Add(ctx context.Context, domain places.Domain) (places.Do
 		Name: domain.Name,
 		Location: domain.Location,
 		Description: domain.Description,
-		Rating: domain.Rating,
+		Rating: 0,
 	}
 	err := Repo.DB.Create(&place)
 	if err.Error != nil {
@@ -49,7 +49,26 @@ func (Repo *placeRepo) GetByID(id uint, ctx context.Context) (places.Domain, err
 	return place.ToDomain(), nil
 }
 
-func (Repo *placeRepo) Update(id uint, ctx context.Context, domain places.Domain) (places.Domain, error) {
+func (Repo *placeRepo) GiveRate(id uint, ctx context.Context, domain places.Domain) (places.Domain, error) {
+	place := FromDomain(domain) 
+	err := Repo.DB.Model(&place).Update("rating", place.Rating)
+	if err.Error != nil {
+		return places.Domain{}, err.Error
+	}
+	return place.ToDomain(), nil
+}
+
+// Get latest rating from place
+func (Repo *placeRepo) GetRating(id uint, ctx context.Context) (places.Domain, error) {
+	var place Place
+	err := Repo.DB.Find(&place,"id=?", id)
+	if err.Error != nil {
+		return places.Domain{}, err.Error
+	}
+	return place.ToDomain(), nil
+}
+
+func (Repo *placeRepo) Update(id uint, ctx context.Context, domain places.Domain) (places.Domain, error)  {
 	place := FromDomain(domain)
 	if Repo.DB.Save(&place).Error != nil {
 		return places.Domain{}, errors.New("error updating place")

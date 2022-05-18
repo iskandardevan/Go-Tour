@@ -14,10 +14,14 @@ type BaseResponse struct {
 	Data interface{} `json:"data"`
 }
 
-func NewSuccesResponse(c echo.Context, data interface{}) error {
+func NewSuccesResponse(c echo.Context, data interface{}, message ...string) error {
 	response := BaseResponse{}
-	response.Meta.Status = http.StatusOK
-	response.Meta.Message = "Success"
+	response.Meta.Status = http.StatusOK 
+	defaultmessage := "Success"
+	if len(message) > 0 {
+		defaultmessage = message[0]
+	}
+	response.Meta.Message = defaultmessage
 	response.Data = data
 	return c.JSON(http.StatusOK, response)
 }
