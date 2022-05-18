@@ -7,10 +7,10 @@
     "timeout": 2
   },
   "database": {
-    "host": "127.0.0.1",
+    "host": "go-tour.cvzq5lzjbv9e.ap-southeast-1.rds.amazonaws.com",
     "port": "3306",
-    "user": "root",
-    "pass": "qqwerty",
+    "user": "admin",
+    "pass": "qqwerty123",
     "name": "go-tour"
   },
   "JWT": {

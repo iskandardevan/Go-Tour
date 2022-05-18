@@ -2,7 +2,7 @@ name: "running unit test, build docker image"
 on:
   push:
     branches:
-      - "main"
+      - "cicd"
 
 jobs:
   unit-test:
@@ -41,7 +41,7 @@ jobs:
       - name: configuration ssh
         env :
           SSH_USER: ${{ secrets.SSH_USERNAME }}
-          SSH_KEY: ${{ secrets.GO_TOUR }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           mkdir -p ~/.ssh/
