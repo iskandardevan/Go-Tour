@@ -55,6 +55,15 @@ func (usecase *PlaceUseCase) GetByID(id uint, ctx context.Context) (Domain, erro
 	return place, nil
 }
 
+func (usecase *PlaceUseCase) GiveRate(id uint, ctx context.Context, domain Domain) (Domain, error) {
+	domain.Id = (id)
+	place, err := usecase.repo.GiveRate(id, ctx, domain)
+	if err != nil {
+		return Domain{}, errors.New("tidak ada place dengan ID tersebut")
+	}
+	return place, nil
+}
+
 func (usecase *PlaceUseCase) Update(id uint, ctx context.Context, domain Domain) (Domain, error) {
 	domain.Id = (id)
 	place, err := usecase.repo.Update(id, ctx, domain)

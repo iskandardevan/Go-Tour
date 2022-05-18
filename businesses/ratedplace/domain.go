@@ -27,6 +27,7 @@ type RatedPlaceUsecaseInterface interface {
 	GetByID(id uint, ctx context.Context) (Domain, error)
 	Update(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
+	
 }
 
 type RatedPlaceRepoInterface interface { 
@@ -35,5 +36,8 @@ type RatedPlaceRepoInterface interface {
 	GetByID(id uint, ctx context.Context) (Domain, error)
 	Update(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
+	Count(id uint, ctx context.Context) (int64, error)
+	GetRating(id  uint, ctx context.Context) (float64, error)
+	
 }
 

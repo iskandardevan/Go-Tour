@@ -1,20 +1,24 @@
-package ratedplace 
+package ratedplace
 
 import (
 	"context"
-	"errors" 
+	"errors"
+	"log"
 	"time"
- 
+
+	"go-tour/businesses/places"
 )
 
 type RatedPlaceUseCase struct {
 	repo RatedPlaceRepoInterface
+	repoPlace places.PlaceRepoInterface
 	ctx time.Duration
 }
 
-func NewUseCase(RatedplaceRepo RatedPlaceRepoInterface, ctx time.Duration ) *RatedPlaceUseCase {
+func NewUseCase(RatedplaceRepo RatedPlaceRepoInterface, repoPlace places.PlaceRepoInterface,  ctx time.Duration ) *RatedPlaceUseCase {
 	return &RatedPlaceUseCase{
 		repo: 		RatedplaceRepo,
+		repoPlace: 	repoPlace,
 		ctx:		ctx,
 	}
 }
@@ -24,6 +28,34 @@ func (usecase *RatedPlaceUseCase) Add(ctx context.Context, domain Domain) (Domai
 	if err != nil {
 		return Domain{}, err
 	}
+	latestRating, err := usecase.repoPlace.GetRating(domain.Place_ID, ctx)
+
+	if err != nil {
+		return Domain{}, err
+	}
+
+	totalUser, err := usecase.repo.Count(domain.Place_ID, ctx)
+	if err != nil {
+		return Domain{}, err
+	}
+	sumRating, err := usecase.repo.GetRating(domain.Place_ID, ctx)
+	if err != nil {
+		return Domain{}, err
+	}
+	log.Println("isi latestRating before", latestRating.Rating, domain.Rating , sumRating, totalUser)
+	if latestRating.Rating == 0 {
+		latestRating.Rating = domain.Rating
+	} else {
+		latestRating.Rating = sumRating / float64(totalUser)
+	}
+
+	log.Println("isi latestRating",latestRating.Rating, domain.Rating , sumRating, totalUser)
+
+	_, err = usecase.repoPlace.GiveRate(domain.Place_ID, ctx, latestRating)
+	if err != nil {
+		return Domain{}, err
+	}
+
 	return ratedplace, nil
 }
 

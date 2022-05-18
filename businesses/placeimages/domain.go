@@ -32,5 +32,6 @@ type PlaceImageRepoInterface interface {
 	GetByID(id uint, ctx context.Context) (Domain, error)
 	Update(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
+	Upload(image string)  (string, error)
 }
 

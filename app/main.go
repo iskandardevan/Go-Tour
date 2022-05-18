@@ -93,7 +93,7 @@ func main() {
 	savedplaceUseControllerInterface := savedplaceController.NewSavedPlaceController(savedplaceUseCaseInterface)
 
 	ratedplaceRepoInterface := ratedplaceRepo.NewRatedPlaceRepo(DB)
-	ratedplaceUseCaseInterface := ratedplaceUseCase.NewUseCase(ratedplaceRepoInterface, timeoutContext)
+	ratedplaceUseCaseInterface := ratedplaceUseCase.NewUseCase(ratedplaceRepoInterface,placeRepoInterface, timeoutContext)
 	ratedplaceUseControllerInterface := ratedplaceController.NewRatedPlaceController(ratedplaceUseCaseInterface)
 
 	

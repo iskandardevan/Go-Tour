@@ -29,11 +29,14 @@ type PlaceUsecaseInterface interface {
 	Delete(id uint, ctx context.Context)error
 }
 
+
 type PlaceRepoInterface interface { 
 	Add(ctx context.Context, domain Domain) (Domain, error)
+	GiveRate(id uint, ctx context.Context, domain Domain) (Domain, error)
 	GetAll(ctx context.Context) ([]Domain, error)
 	GetByID(id uint, ctx context.Context) (Domain, error)
 	Update(id uint, ctx context.Context, domain Domain) (Domain, error)
 	Delete(id uint, ctx context.Context)error
+	GetRating(id uint, ctx context.Context) (Domain, error)
 }
 
