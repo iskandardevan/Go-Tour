@@ -108,13 +108,13 @@ func TestGetByID(t *testing.T){
 		}) 
 }
 
-func TestUpdate(t *testing.T){
-	t.Run("Update place success", func(t *testing.T) {
-		setup()
-		placeRepository.On("Update", mock.Anything, placeDomain).Return(placeDomain, nil).Once()
-		placeRepository.On(mock.Anything, mock.Anything).Return(placeDomain, nil)
-		place, err := placeService.Update(1, context.Background(), placeDomain)
-		assert.Nil(t, err)
-		assert.Equal(t, place, placeDomain)
-	})
-}
+// func TestUpdate(t *testing.T){
+// 	t.Run("Update place success", func(t *testing.T) {
+// 		setup()
+// 		placeRepository.On("Update", mock.Anything, placeDomain).Return(placeDomain, nil).Once()
+// 		placeRepository.On(mock.Anything, mock.Anything).Return(placeDomain, nil)
+// 		place, err := placeService.Update(1, context.Background(), placeDomain)
+// 		assert.Nil(t, err)
+// 		assert.Equal(t, place, placeDomain)
+// 	})
+// }
